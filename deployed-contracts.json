@@ -1,0 +1,17 @@
+{
+  "fuji": {
+    "chainId": 43113,
+    "timestamp": "2025-08-24T13:20:10.402Z",
+    "deployer": "0x0a7a01d845b67D833779F323801f21ba7EF4d455",
+    "contracts": {
+      "VeritasSBT": {
+        "address": "0xdCb1C2133f8fa56236be95c757505e9d402DF5b5",
+        "transactionHash": "0x5d58ccbe60acddcd2369e895a405eb154c79020aca201d92d6c3944857e651c0"
+      },
+      "VeritasZKVerifier": {
+        "address": "0x36547776184955abF518c09C790Ec0F36A4f1e40",
+        "transactionHash": "0xae40ed881fc9e33ee208e73940bc7179a199d12be1da4469af853b9800a1d794"
+      }
+    }
+  }
+}
