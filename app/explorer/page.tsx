@@ -105,41 +105,45 @@ export default function CredentialExplorer() {
   const filteredVerificationEvents = verificationEvents;
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white">
-      <div className="container mx-auto px-4 py-8">
+    <div className="min-h-screen bg-gray-900 text-white bg-grid-pattern relative">
+      {/* Animated background elements */}
+      <div className="absolute top-20 left-1/3 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl animate-float"></div>
+      <div className="absolute bottom-20 right-1/3 w-96 h-96 bg-orange-500/5 rounded-full blur-3xl animate-float delay-300"></div>
+      
+      <div className="container mx-auto px-4 py-8 relative z-10">
         {/* Header */}
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold flex items-center justify-center gap-3 mb-4">
-            <Globe className="w-10 h-10 text-blue-500" />
-            Credential Explorer
+        <div className="text-center mb-8 animate-fade-in-down">
+          <h1 className="text-4xl md:text-5xl font-bold flex items-center justify-center gap-3 mb-4">
+            <Globe className="w-10 h-10 text-blue-500 animate-float" />
+            <span className="gradient-text">Credential Explorer</span>
           </h1>
-          <p className="text-gray-400 text-lg max-w-2xl mx-auto">
+          <p className="text-gray-400 text-lg max-w-2xl mx-auto animate-fade-in delay-100">
           Explore the public registry of professional credentials on Celo Alfajores Testnet
           </p>
         </div>
 
         {/* Search Bar */}
-        <Card className="mb-8">
+        <Card className="mb-8 glass-card border-blue-500/20 hover:border-blue-500/30 transition-smooth animate-fade-in-up delay-200">
           <CardContent className="p-6">
             <div className="flex gap-4 flex-wrap">
               <Input
                 placeholder="Search by credential type, issuer, address, or hash..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="flex-1 min-w-[200px]"
+                className="flex-1 min-w-[200px] transition-smooth focus:border-blue-400"
                 onKeyDown={(e) => e.key === "Enter" && handleSearch()}
               />
               <div className="flex items-center gap-2">
                 <Filter className="w-4 h-4 text-gray-400" />
-                <div className="px-3 py-2 bg-gray-800 border border-gray-700 rounded-md text-sm">
+                <div className="px-3 py-2 glass-card border border-gray-700 rounded-md text-sm hover:border-blue-500/30 transition-smooth">
                   {currentNetwork.name}
                 </div>
               </div>
-              <Button onClick={handleSearch} className="bg-blue-600 hover:bg-blue-700">
+              <Button onClick={handleSearch} className="bg-blue-600 hover:bg-blue-700 transition-smooth hover:scale-105 hover:shadow-glow-blue btn-glow">
                 <Search className="w-4 h-4 mr-2" />
                 Search
               </Button>
-              <Button variant="outline" onClick={loadEvents} disabled={isLoading}>
+              <Button variant="outline" onClick={loadEvents} disabled={isLoading} className="transition-smooth hover:scale-105">
                 <RefreshCw className={`w-4 h-4 mr-2 ${isLoading ? "animate-spin" : ""}`} />
                 Refresh
               </Button>
@@ -149,10 +153,10 @@ export default function CredentialExplorer() {
 
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-          <Card>
+          <Card className="glass-card border-blue-500/20 hover:border-blue-500/40 transition-smooth card-hover animate-fade-in-up delay-300">
             <CardContent className="p-6">
               <div className="flex items-center gap-3">
-                <div className="p-3 bg-blue-500/10 rounded-lg">
+                <div className="p-3 bg-blue-500/10 rounded-lg transition-smooth hover:bg-blue-500/20">
                   <Activity className="w-6 h-6 text-blue-500" />
                 </div>
                 <div>
@@ -163,10 +167,10 @@ export default function CredentialExplorer() {
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="glass-card border-green-500/20 hover:border-green-500/40 transition-smooth card-hover animate-fade-in-up delay-400">
             <CardContent className="p-6">
               <div className="flex items-center gap-3">
-                <div className="p-3 bg-green-500/10 rounded-lg">
+                <div className="p-3 bg-green-500/10 rounded-lg transition-smooth hover:bg-green-500/20">
                   <TrendingUp className="w-6 h-6 text-green-500" />
                 </div>
                 <div>
@@ -177,10 +181,10 @@ export default function CredentialExplorer() {
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="glass-card border-indigo-500/20 hover:border-indigo-500/40 transition-smooth card-hover animate-fade-in-up delay-500">
             <CardContent className="p-6">
               <div className="flex items-center gap-3">
-                <div className="p-3 bg-indigo-500/10 rounded-lg">
+                <div className="p-3 bg-indigo-500/10 rounded-lg transition-smooth hover:bg-indigo-500/20">
                   <Globe className="w-6 h-6 text-indigo-500" />
                 </div>
                 <div>
@@ -191,10 +195,10 @@ export default function CredentialExplorer() {
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="glass-card border-yellow-500/20 hover:border-yellow-500/40 transition-smooth card-hover animate-fade-in-up delay-600">
             <CardContent className="p-6">
               <div className="flex items-center gap-3">
-                <div className="p-3 bg-yellow-500/10 rounded-lg">
+                <div className="p-3 bg-yellow-500/10 rounded-lg transition-smooth hover:bg-yellow-500/20">
                   <Search className="w-6 h-6 text-yellow-500" />
                 </div>
                 <div>
@@ -208,25 +212,35 @@ export default function CredentialExplorer() {
 
         {/* Events Lists */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <Card>
+          <Card className="glass-card border-purple-500/20 hover:border-purple-500/30 transition-smooth animate-fade-in-up delay-700">
             <CardContent>
-              <h2 className="text-xl font-semibold mb-4">Recent Credentials</h2>
+              <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
+                <Activity className="w-5 h-5 text-purple-400" />
+                Recent Credentials
+              </h2>
               <div className="space-y-4">
                 {filteredCredentialEvents.length === 0 && !isLoading && (
-                  <p className="text-gray-400">No credentials found.</p>
+                  <div className="text-center py-8">
+                    <Globe className="w-12 h-12 mx-auto mb-2 opacity-50 text-gray-500 animate-float" />
+                    <p className="text-gray-400">No credentials found.</p>
+                  </div>
                 )}
 
-                {filteredCredentialEvents.map((ev) => (
-                  <div key={`${ev.metadataHash}-${ev.recipient}-${ev.network || ''}`} className="p-4 bg-gray-800/60 rounded-lg">
+                {filteredCredentialEvents.map((ev, index) => (
+                  <div 
+                    key={`${ev.metadataHash}-${ev.recipient}-${ev.network || ''}`} 
+                    className="p-4 glass-card border border-gray-700/50 rounded-lg hover:border-blue-500/30 transition-smooth animate-fade-in"
+                    style={{ animationDelay: `${index * 50}ms` }}
+                  >
                     <div className="flex justify-between items-start">
                       <div>
-                        <div className="flex items-center gap-2 mb-1">
+                        <div className="flex items-center gap-2 mb-1 flex-wrap">
                           <p className="font-medium">
                             {ev.credentialType}{" "}
                             <span className="text-sm text-gray-400">by {ev.issuerName}</span>
                           </p>
                           {ev.network && (
-                            <Badge className={getNetworkBadgeColor(ev.network)}>
+                            <Badge className={`${getNetworkBadgeColor(ev.network)} transition-smooth hover:scale-105`}>
                               {getNetworkDisplayName(ev.network)}
                             </Badge>
                           )}
@@ -246,22 +260,32 @@ export default function CredentialExplorer() {
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="glass-card border-green-500/20 hover:border-green-500/30 transition-smooth animate-fade-in-up delay-800">
             <CardContent>
-              <h2 className="text-xl font-semibold mb-4">Recent Verifications</h2>
+              <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
+                <Search className="w-5 h-5 text-green-400" />
+                Recent Verifications
+              </h2>
               <div className="space-y-4">
                 {filteredVerificationEvents.length === 0 && !isLoading && (
-                  <p className="text-gray-400">No verifications found.</p>
+                  <div className="text-center py-8">
+                    <Search className="w-12 h-12 mx-auto mb-2 opacity-50 text-gray-500 animate-float" />
+                    <p className="text-gray-400">No verifications found.</p>
+                  </div>
                 )}
 
-                {filteredVerificationEvents.map((v) => (
-                  <div key={`${v.proofId}-${v.timestamp}-${v.network || ''}`} className="p-4 bg-gray-800/60 rounded-lg">
+                {filteredVerificationEvents.map((v, index) => (
+                  <div 
+                    key={`${v.proofId}-${v.timestamp}-${v.network || ''}`} 
+                    className="p-4 glass-card border border-gray-700/50 rounded-lg hover:border-green-500/30 transition-smooth animate-fade-in"
+                    style={{ animationDelay: `${index * 50}ms` }}
+                  >
                     <div className="flex justify-between items-start">
                       <div>
-                        <div className="flex items-center gap-2 mb-1">
+                        <div className="flex items-center gap-2 mb-1 flex-wrap">
                           <p className="font-medium">Verified: Credential</p>
                           {v.network && (
-                            <Badge className={getNetworkBadgeColor(v.network)}>
+                            <Badge className={`${getNetworkBadgeColor(v.network)} transition-smooth hover:scale-105`}>
                               {getNetworkDisplayName(v.network)}
                             </Badge>
                           )}
