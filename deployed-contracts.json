@@ -13,5 +13,21 @@
         "transactionHash": "0xae40ed881fc9e33ee208e73940bc7179a199d12be1da4469af853b9800a1d794"
       }
     }
+  },
+  "alfajores": {
+    "chainId": 44787,
+    "timestamp": null,
+    "deployer": null,
+    "contracts": {
+      "VeritasSBT": {
+        "address": null,
+        "transactionHash": null
+      },
+      "VeritasZKVerifier": {
+        "address": null,
+        "transactionHash": null
+      }
+    },
+    "note": "Deploy contracts using: npm run deploy:alfajores"
   }
 }

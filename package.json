@@ -9,10 +9,12 @@
     "start": "next start",
     "compile": "hardhat compile",
     "test": "hardhat test",
-    "deploy": "pnpm compile && hardhat run scripts/deploy-fuji.js --network fuji",
-    "deploy:no-verify": "pnpm compile && hardhat run scripts/deploy-fuji.js --network fuji --no-verify",
+    "test:networks": "node scripts/test-network-connectivity.js",
+    "deploy:fuji": "pnpm compile && hardhat run scripts/deploy-fuji.js --network fuji",
+    "deploy:alfajores": "pnpm compile && hardhat run scripts/deploy-alfajores.js --network alfajores",
     "export:env": "node scripts/export-env.js fuji .env",
-    "verify": "hardhat run scripts/verify.js --network fuji",
+    "verify:fuji": "hardhat run scripts/verify.js --network fuji",
+    "verify:alfajores": "hardhat run scripts/verify.js --network alfajores",
     "status": "hardhat run scripts/status.js"
   },
   "dependencies": {
