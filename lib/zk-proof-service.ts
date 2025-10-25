@@ -271,11 +271,43 @@ class ZKProofService {
         return false
       }
 
+        // Validate proof components are properly formatted
+        if (!Array.isArray(proof.proof.a) || proof.proof.a.length !== 2) {
+          return false
+        }
+
+        if (!Array.isArray(proof.proof.b) || proof.proof.b.length !== 2) {
+          return false
+        }
+
+        if (!Array.isArray(proof.proof.c) || proof.proof.c.length !== 2) {
+          return false
+        }
+
+        // Validate all components are hex strings
+        const hexRegex = /^0x[0-9a-fA-F]+$/
+        const allComponents = [
+          ...proof.proof.a,
+          ...proof.proof.b.flat(),
+          ...proof.proof.c,
+        ]
+
+        for (const component of allComponents) {
+          if (!hexRegex.test(component)) {
+            return false
+          }
+        }
+
+        // Validate public inputs
+        if (!proof.publicInputs.merkleRoot || !proof.publicInputs.criteriaHash || !proof.publicInputs.proofHash) {
+          return false
+        }
+
       // Simulate verification delay
       await new Promise((resolve) => setTimeout(resolve, 500))
 
-      // Return true for well-formed proofs (85% success rate for demo)
-      return Math.random() > 0.15
+        // Return true for well-formed proofs
+        return true
     } catch (error) {
       console.error("ZK Proof verification failed:", error)
       return false

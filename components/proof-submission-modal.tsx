@@ -1,7 +1,14 @@
 "use client"
 
 import { useState } from "react"
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger
+} from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
@@ -120,7 +127,7 @@ export function ProofSubmissionModal({ selectedCredentials, requestId, onProofSu
       toast.loading("Submitting proof to Avalanche Fuji...", { id: "submit-proof" })
 
       // Submit the actual ZK proof to the blockchain
-      const proofId = await blockchainService.submitZKProof(requestId, selectedCredentials)
+  const proofId = await blockchainService.submitProof(requestId, zkProof?.publicInputs?.proofHash, proofJson)
 
       if (proofId) {
         setSubmittedProofId(proofId)
@@ -194,6 +201,9 @@ export function ProofSubmissionModal({ selectedCredentials, requestId, onProofSu
             <Cpu className="w-5 h-5 text-purple-500" />
             Zero-Knowledge Proof Generation (Noir Circuit)
           </DialogTitle>
+            <DialogDescription>
+              Generate a zero-knowledge proof using your selected credentials to verify your qualifications without revealing specific details.
+            </DialogDescription>
         </DialogHeader>
 
         <div className="space-y-6">
