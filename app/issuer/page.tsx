@@ -164,35 +164,43 @@ export default function IssuerDashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white bg-dots-pattern relative">
-      {/* Animated background elements */}
-      <div className="absolute top-20 left-1/4 w-72 h-72 bg-blue-500/5 rounded-full blur-3xl animate-float"></div>
-      <div className="absolute bottom-20 right-1/4 w-72 h-72 bg-purple-500/5 rounded-full blur-3xl animate-float delay-300"></div>
+    <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950 text-white relative overflow-hidden">
+      {/* Subtle animated background elements */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-blue-900/10 via-transparent to-transparent"></div>
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,_var(--tw-gradient-stops))] from-purple-900/10 via-transparent to-transparent"></div>
+      <div className="absolute top-1/4 -left-20 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl animate-pulse"></div>
+      <div className="absolute bottom-1/4 -right-20 w-96 h-96 bg-purple-500/5 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
       
-      <div className="container mx-auto px-4 py-8 relative z-10">
+      <div className="container mx-auto px-4 py-12 relative z-10 max-w-7xl">
         {/* Header */}
-        <div className="flex items-center justify-between mb-8 animate-fade-in-down">
-          <div>
-            <h1 className="text-3xl md:text-4xl font-bold flex items-center gap-3">
-              <Award className="w-8 h-8 text-blue-500 animate-float" />
-              <span className="gradient-text-blue-purple">Issuer Dashboard</span>
-            </h1>
-            <p className="text-gray-400 mt-2 animate-fade-in delay-100">
-                Mint Soulbound Tokens for verified professional credentials on Celo Alfajores
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-12 gap-6">
+          <div className="space-y-3">
+            <div className="flex items-center gap-3">
+              <div className="p-2 rounded-xl bg-gradient-to-br from-blue-500/20 to-purple-500/20 backdrop-blur-sm border border-blue-500/20">
+                <Award className="w-7 h-7 text-blue-400" />
+              </div>
+              <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-400 via-purple-400 to-blue-400 bg-clip-text text-transparent">
+                Issuer Dashboard
+              </h1>
+            </div>
+            <p className="text-gray-400 text-lg ml-[52px]">
+              Mint Soulbound Tokens for verified professional credentials on Celo Alfajores
             </p>
           </div>
-          <div className="animate-fade-in delay-200">
+          <div className="md:flex-shrink-0">
             <WalletConnectButton onConnect={handleConnect} onDisconnect={handleDisconnect} showNetwork />
           </div>
         </div>
 
         {!isConnected ? (
-          <Card className="max-w-md mx-auto glass-card border-blue-500/20 animate-scale-in">
-            <CardContent className="text-center py-12">
-              <Shield className="w-16 h-16 text-blue-500 mx-auto mb-4 animate-float" />
-              <h2 className="text-xl font-semibold mb-2">Connect Your Wallet</h2>
-              <p className="text-gray-400 mb-6">
-                  Connect your wallet to Celo Alfajores testnet to start issuing credentials.
+          <Card className="max-w-lg mx-auto bg-gray-900/50 backdrop-blur-xl border border-gray-800/50 shadow-2xl">
+            <CardContent className="text-center py-16 px-8">
+              <div className="inline-flex p-4 rounded-2xl bg-gradient-to-br from-blue-500/10 to-purple-500/10 border border-blue-500/20 mb-6">
+                <Shield className="w-16 h-16 text-blue-400" />
+              </div>
+              <h2 className="text-2xl font-semibold mb-3 text-gray-100">Connect Your Wallet</h2>
+              <p className="text-gray-400 mb-8 max-w-sm mx-auto leading-relaxed">
+                Connect your wallet to Celo Alfajores testnet to start issuing professional credentials.
               </p>
               <WalletConnectButton onConnect={handleConnect} onDisconnect={handleDisconnect} />
             </CardContent>
@@ -200,71 +208,80 @@ export default function IssuerDashboard() {
         ) : (
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Main Form */}
-            <div className="lg:col-span-2 animate-fade-in-up delay-300">
-              <Card className="glass-card border-blue-500/20 hover:border-blue-500/30 transition-smooth">
-                <CardHeader>
+            <div className="lg:col-span-2">
+              <Card className="bg-gray-900/50 backdrop-blur-xl border border-gray-800/50 shadow-2xl hover:border-gray-700/50 transition-all duration-300">
+                <CardHeader className="border-b border-gray-800/50 pb-6">
                   <div className="flex items-center justify-between">
-                    <CardTitle className="flex items-center gap-2">
-                      <Send className="w-5 h-5 text-green-500" />
+                    <CardTitle className="flex items-center gap-3 text-xl">
+                      <div className="p-2 rounded-lg bg-green-500/10 border border-green-500/20">
+                        <Send className="w-5 h-5 text-green-400" />
+                      </div>
                       Mint New Credential
                     </CardTitle>
                     <div className="flex items-center gap-2">
                       {checkingWhitelist ? (
-                        <Badge variant="secondary" className="bg-yellow-500/10 text-yellow-400 animate-pulse">
-                          Checking...
+                        <Badge variant="secondary" className="bg-yellow-500/10 text-yellow-400 border border-yellow-500/20 px-3 py-1">
+                          <RefreshCw className="w-3 h-3 mr-1.5 animate-spin" />
+                          Verifying...
                         </Badge>
                       ) : isWhitelisted ? (
-                        <Badge variant="secondary" className="bg-green-500/10 text-green-400 border-green-500/20 transition-smooth hover:scale-105">
-                          <CheckCircle className="w-3 h-3 mr-1" />
-                          Authorized Issuer
+                        <Badge variant="secondary" className="bg-green-500/10 text-green-400 border border-green-500/20 px-3 py-1">
+                          <CheckCircle className="w-3 h-3 mr-1.5" />
+                          Authorized
                         </Badge>
                       ) : (
-                        <Badge variant="secondary" className="bg-red-500/10 text-red-400 border-red-500/20 transition-smooth">
-                          <XCircle className="w-3 h-3 mr-1" />
-                          Not Authorized
+                        <Badge variant="secondary" className="bg-red-500/10 text-red-400 border border-red-500/20 px-3 py-1">
+                          <XCircle className="w-3 h-3 mr-1.5" />
+                          Unauthorized
                         </Badge>
                       )}
                     </div>
                   </div>
                 </CardHeader>
 
-                <CardContent className="space-y-6">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <Label htmlFor="recipient">Recipient Address *</Label>
+                <CardContent className="space-y-6 pt-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="space-y-2">
+                      <Label htmlFor="recipient" className="text-sm font-medium text-gray-300">
+                        Recipient Address <span className="text-red-400">*</span>
+                      </Label>
                       <Input
                         id="recipient"
                         placeholder="0x..."
                         value={formData.recipientAddress}
                         onChange={(e) => handleInputChange("recipientAddress", e.target.value)}
-                        className="mt-1 font-mono transition-smooth focus:border-blue-400"
+                        className="bg-gray-800/50 border-gray-700/50 focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20 font-mono text-sm transition-all"
                       />
                     </div>
 
-                    <div>
-                      <Label htmlFor="issuer">Issuer Name *</Label>
+                    <div className="space-y-2">
+                      <Label htmlFor="issuer" className="text-sm font-medium text-gray-300">
+                        Issuer Name <span className="text-red-400">*</span>
+                      </Label>
                       <Input
                         id="issuer"
                         placeholder="Your organization name"
                         value={formData.issuerName}
                         onChange={(e) => handleInputChange("issuerName", e.target.value)}
-                        className="mt-1 transition-smooth focus:border-blue-400"
+                        className="bg-gray-800/50 border-gray-700/50 focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20 text-sm transition-all"
                       />
                     </div>
                   </div>
 
-                  <div>
-                    <Label htmlFor="credentialType">Credential Type *</Label>
+                  <div className="space-y-2">
+                    <Label htmlFor="credentialType" className="text-sm font-medium text-gray-300">
+                      Credential Type <span className="text-red-400">*</span>
+                    </Label>
                     <Select
                       value={formData.credentialType}
                       onValueChange={(value) => handleInputChange("credentialType", value)}
                     >
-                      <SelectTrigger className="mt-1 transition-smooth focus:border-blue-400">
+                      <SelectTrigger className="bg-gray-800/50 border-gray-700/50 focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20 text-sm transition-all">
                         <SelectValue placeholder="Select credential type" />
                       </SelectTrigger>
-                      <SelectContent>
+                      <SelectContent className="bg-gray-900 border-gray-700">
                         {CREDENTIAL_TYPES.map((type) => (
-                          <SelectItem key={type} value={type}>
+                          <SelectItem key={type} value={type} className="focus:bg-gray-800">
                             {type}
                           </SelectItem>
                         ))}
@@ -272,30 +289,39 @@ export default function IssuerDashboard() {
                     </Select>
                   </div>
 
-                  <div>
-                    <Label htmlFor="description">Description</Label>
+                  <div className="space-y-2">
+                    <Label htmlFor="description" className="text-sm font-medium text-gray-300">
+                      Description
+                    </Label>
                     <Textarea
                       id="description"
                       placeholder="Describe the credential and achievement..."
                       value={formData.description}
                       onChange={(e) => handleInputChange("description", e.target.value)}
-                      className="mt-1 transition-smooth focus:border-blue-400"
+                      className="bg-gray-800/50 border-gray-700/50 focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20 text-sm min-h-[100px] transition-all resize-none"
                     />
                   </div>
 
-                  <div>
-                    <Label htmlFor="additionalData">Additional Metadata (JSON)</Label>
+                  <div className="space-y-2">
+                    <Label htmlFor="additionalData" className="text-sm font-medium text-gray-300">
+                      Additional Metadata (JSON)
+                    </Label>
                     <Textarea
                       id="additionalData"
                       placeholder='{"project": "DeFi Protocol", "role": "Lead Developer", "skills": ["Solidity", "React"]}'
                       value={formData.additionalData}
                       onChange={(e) => handleInputChange("additionalData", e.target.value)}
-                      className={`mt-1 font-mono text-sm transition-smooth ${
-                        (!!formData.additionalData && !validateJSON(formData.additionalData)) ? "border-red-500" : "focus:border-blue-400"
+                      className={`font-mono text-xs min-h-[100px] transition-all resize-none ${
+                        (!!formData.additionalData && !validateJSON(formData.additionalData)) 
+                          ? "bg-red-500/5 border-red-500/50 focus:border-red-500/50 focus:ring-2 focus:ring-red-500/20" 
+                          : "bg-gray-800/50 border-gray-700/50 focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20"
                       }`}
                     />
                     {!!formData.additionalData && !validateJSON(formData.additionalData) && (
-                      <p className="text-red-400 text-sm mt-1 animate-fade-in">Invalid JSON format</p>
+                      <p className="text-red-400 text-xs flex items-center gap-1">
+                        <XCircle className="w-3 h-3" />
+                        Invalid JSON format
+                      </p>
                     )}
                   </div>
 
@@ -306,7 +332,7 @@ export default function IssuerDashboard() {
                       !isWhitelisted ||
                       (!!formData.additionalData && !validateJSON(formData.additionalData))
                     }
-                    className="w-full bg-blue-600 hover:bg-blue-700 transition-smooth hover:scale-105 hover:shadow-glow-blue btn-glow disabled:opacity-50 disabled:hover:scale-100"
+                    className="w-full bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-600 disabled:from-gray-700 disabled:to-gray-700 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-blue-500/25 transition-all duration-300 h-12 text-base font-medium"
                     size="lg"
                   >
                     {isMinting ? (
@@ -326,37 +352,53 @@ export default function IssuerDashboard() {
             </div>
 
             {/* Recent Mints Sidebar */}
-            <div className="animate-fade-in-up delay-400">
-              <Card className="glass-card border-purple-500/20 hover:border-purple-500/30 transition-smooth">
-                <CardHeader>
-                  <CardTitle className="text-lg flex items-center gap-2">
-                    <Award className="w-5 h-5 text-purple-400" />
+            <div className="lg:col-span-1">
+              <Card className="bg-gray-900/50 backdrop-blur-xl border border-gray-800/50 shadow-2xl sticky top-8">
+                <CardHeader className="border-b border-gray-800/50 pb-6">
+                  <CardTitle className="text-lg flex items-center gap-3">
+                    <div className="p-2 rounded-lg bg-purple-500/10 border border-purple-500/20">
+                      <Award className="w-5 h-5 text-purple-400" />
+                    </div>
                     Recent Mints
                   </CardTitle>
                 </CardHeader>
-                <CardContent>
+                <CardContent className="pt-6">
                   {recentMints.length === 0 ? (
-                    <div className="text-center py-8 text-gray-400">
-                      <Award className="w-12 h-12 mx-auto mb-2 opacity-50 animate-float" />
-                      <p>No recent mints</p>
+                    <div className="text-center py-12">
+                      <div className="inline-flex p-4 rounded-xl bg-gray-800/30 border border-gray-700/50 mb-4">
+                        <Award className="w-10 h-10 text-gray-600" />
+                      </div>
+                      <p className="text-gray-500 text-sm">No recent mints yet</p>
+                      <p className="text-gray-600 text-xs mt-1">Your minted credentials will appear here</p>
                     </div>
                   ) : (
-                    <div className="space-y-4">
+                    <div className="space-y-3">
                       {recentMints.map((mint, index) => (
-                        <div key={index} className="border border-gray-700/50 glass-card rounded-lg p-3 hover:border-blue-500/30 transition-smooth animate-fade-in" style={{ animationDelay: `${index * 100}ms` }}>
-                          <div className="flex items-center justify-between mb-2">
-                            <Badge variant="secondary" className="bg-blue-500/10 text-blue-400 transition-smooth hover:scale-105">
+                        <div 
+                          key={index} 
+                          className="group border border-gray-800/50 bg-gray-800/30 backdrop-blur-sm rounded-xl p-4 hover:border-gray-700/50 hover:bg-gray-800/40 transition-all duration-300"
+                        >
+                          <div className="flex items-start justify-between mb-3">
+                            <Badge variant="secondary" className="bg-blue-500/10 text-blue-400 border border-blue-500/20 text-xs px-2 py-0.5">
                               {mint.credentialType}
                             </Badge>
-                            <span className="text-xs text-gray-500">#{mint.tokenId}</span>
+                            <span className="text-xs text-gray-500 font-mono">#{mint.tokenId}</span>
                           </div>
-                          <p className="text-sm text-gray-300 mb-1">{mint.issuerName}</p>
-                          <p className="text-xs text-gray-500 font-mono">
-                            To: {mint.recipient.slice(0, 8)}...{mint.recipient.slice(-6)}
-                          </p>
-                          <div className="flex justify-between items-center mt-2">
+                          <p className="text-sm font-medium text-gray-200 mb-2">{mint.issuerName}</p>
+                          <div className="flex items-center gap-2 mb-3">
+                            <span className="text-xs text-gray-500">To:</span>
+                            <p className="text-xs text-gray-400 font-mono bg-gray-900/50 px-2 py-1 rounded border border-gray-800/50 flex-1 truncate">
+                              {mint.recipient.slice(0, 10)}...{mint.recipient.slice(-8)}
+                            </p>
+                          </div>
+                          <div className="flex justify-between items-center pt-3 border-t border-gray-800/50">
                             <span className="text-xs text-gray-500">
-                              {new Date(mint.timestamp).toLocaleTimeString()}
+                              {new Date(mint.timestamp).toLocaleString('en-US', { 
+                                month: 'short', 
+                                day: 'numeric',
+                                hour: '2-digit', 
+                                minute: '2-digit'
+                              })}
                             </span>
                             <Button
                               variant="ghost"
@@ -364,9 +406,9 @@ export default function IssuerDashboard() {
                               onClick={() =>
                                 window.open(blockchainService.getExplorerUrl(mint.recipient, "address"), "_blank")
                               }
-                              className="h-6 w-6 p-0 transition-smooth hover:scale-110"
+                              className="h-7 w-7 p-0 hover:bg-blue-500/10 hover:text-blue-400 transition-all group-hover:opacity-100 opacity-70"
                             >
-                              <ExternalLink className="w-3 h-3" />
+                              <ExternalLink className="w-3.5 h-3.5" />
                             </Button>
                           </div>
                         </div>

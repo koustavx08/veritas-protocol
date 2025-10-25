@@ -306,13 +306,18 @@ export class BlockchainService {
 
       toast.loading("Minting credential...", { id: "mint-tx" })
 
-      const tx = await this.sbtContract.write.mintCredential([
-        recipient as `0x${string}`,
-        credentialType,
-        issuerName,
-        metadataHash as `0x${string}`,
-        metadataURI,
-      ])
+      const tx = await this.sbtContract.write.mintCredential(
+        [
+          recipient as `0x${string}`,
+          credentialType,
+          issuerName,
+          metadataHash as `0x${string}`,
+          metadataURI,
+        ],
+        {
+          account: this.account,
+        }
+      )
 
       toast.loading("Waiting for transaction confirmation...", { id: "mint-tx" })
 
@@ -390,11 +395,16 @@ export class BlockchainService {
 
       toast.loading("Creating verification request...", { id: "request-tx" })
 
-      const tx = await this.verifierContract.write.createVerificationRequest([
-        requiredCredentials,
-        criteriaHash as `0x${string}`,
-        BigInt(expiryTime),
-      ])
+      const tx = await this.verifierContract.write.createVerificationRequest(
+        [
+          requiredCredentials,
+          criteriaHash as `0x${string}`,
+          BigInt(expiryTime),
+        ],
+        {
+          account: this.account,
+        }
+      )
 
       toast.loading("Waiting for transaction confirmation...", { id: "request-tx" })
 
@@ -470,11 +480,16 @@ export class BlockchainService {
 
       toast.loading("Submitting proof...", { id: "proof-tx" })
 
-      const tx = await this.verifierContract.write.submitProof([
-        requestId as `0x${string}`,
-        proofHash as `0x${string}`,
-        proof,
-      ])
+      const tx = await this.verifierContract.write.submitProof(
+        [
+          requestId as `0x${string}`,
+          proofHash as `0x${string}`,
+          proof,
+        ],
+        {
+          account: this.account,
+        }
+      )
 
       toast.loading("Waiting for transaction confirmation...", { id: "proof-tx" })
 
