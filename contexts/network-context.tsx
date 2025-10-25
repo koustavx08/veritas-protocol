@@ -1,31 +1,45 @@
 'use client'
 
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react'
-import { NetworkConfig, AVALANCHE_FUJI } from '@/lib/networks'
+import { NetworkConfig, AVALANCHE_FUJI, CELO_ALFAJORES } from '@/lib/networks'
 import { blockchainService } from '@/lib/blockchain'
 
+type Mode = 'testnet' | 'mainnet'
+
 interface NetworkContextType {
+  mode: Mode
+  setMode: (mode: Mode) => void
   currentNetwork: NetworkConfig
+  setCurrentNetwork: (net: NetworkConfig) => void
+  availableNetworks: Record<string, NetworkConfig>
   isCorrectNetwork: boolean
-  switchNetwork: () => Promise<boolean>
+  switchNetwork: (chainId: number) => Promise<boolean>
 }
 
 const NetworkContext = createContext<NetworkContextType | undefined>(undefined)
 
+const AVAILABLE_TESTNETS: Record<string, NetworkConfig> = {
+  fuji: AVALANCHE_FUJI,
+  alfajores: CELO_ALFAJORES,
+}
+
 export function NetworkProvider({ children }: { children: ReactNode }) {
+  const [mode, setMode] = useState<Mode>('testnet')
+  const initial = (process?.env?.NEXT_PUBLIC_VERITAS_NETWORK === 'alfajores') ? CELO_ALFAJORES : AVALANCHE_FUJI
+  const [currentNetwork, setCurrentNetwork] = useState<NetworkConfig>(initial)
   const [isCorrectNetwork, setIsCorrectNetwork] = useState<boolean>(true)
-  const currentNetwork = AVALANCHE_FUJI
 
   useEffect(() => {
-    checkCurrentNetwork()
     blockchainService.setNetwork(currentNetwork)
+    checkCurrentNetwork()
     if (typeof window !== 'undefined' && window.ethereum) {
-      window.ethereum.on('chainChanged', checkCurrentNetwork)
+      const handler = () => checkCurrentNetwork()
+      window.ethereum.on('chainChanged', handler)
       return () => {
-        window.ethereum.removeListener('chainChanged', checkCurrentNetwork)
+        window.ethereum.removeListener('chainChanged', handler)
       }
     }
-  }, [])
+  }, [currentNetwork])
 
   const checkCurrentNetwork = async () => {
     if (typeof window === 'undefined' || !window.ethereum) {
@@ -41,15 +55,19 @@ export function NetworkProvider({ children }: { children: ReactNode }) {
     }
   }
 
-  const switchNetwork = async (): Promise<boolean> => {
+  const switchNetwork = async (chainId: number): Promise<boolean> => {
+    const target = Object.values(AVAILABLE_TESTNETS).find(n => n.id === chainId)
+    if (!target) return false
+
     if (typeof window === 'undefined' || !window.ethereum) {
       return false
     }
     try {
       await window.ethereum.request({
         method: 'wallet_switchEthereumChain',
-        params: [{ chainId: `0x${currentNetwork.id.toString(16)}` }],
+        params: [{ chainId: `0x${target.id.toString(16)}` }],
       })
+      setCurrentNetwork(target)
       return true
     } catch (switchError: any) {
       if (switchError.code === 4902) {
@@ -58,16 +76,17 @@ export function NetworkProvider({ children }: { children: ReactNode }) {
             method: 'wallet_addEthereumChain',
             params: [
               {
-                chainId: `0x${currentNetwork.id.toString(16)}`,
-                chainName: currentNetwork.name,
-                nativeCurrency: currentNetwork.nativeCurrency,
-                rpcUrls: currentNetwork.rpcUrls.default.http,
-                blockExplorerUrls: [currentNetwork.blockExplorers.default.url],
+                chainId: `0x${target.id.toString(16)}`,
+                chainName: target.name,
+                nativeCurrency: target.nativeCurrency,
+                rpcUrls: target.rpcUrls.default.http,
+                blockExplorerUrls: [target.blockExplorers.default.url],
               },
             ],
           })
+          setCurrentNetwork(target)
           return true
-        } catch (addError) {
+        } catch (_) {
           return false
         }
       }
@@ -78,7 +97,11 @@ export function NetworkProvider({ children }: { children: ReactNode }) {
   return (
     <NetworkContext.Provider
       value={{
+        mode,
+        setMode,
         currentNetwork,
+        setCurrentNetwork,
+        availableNetworks: AVAILABLE_TESTNETS,
         isCorrectNetwork,
         switchNetwork,
       }}

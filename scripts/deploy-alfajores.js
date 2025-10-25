@@ -10,6 +10,7 @@
  */
 
 const hre = require("hardhat")
+const { ethers } = hre
 const fs = require("fs")
 const path = require("path")
 
@@ -17,15 +18,15 @@ async function main() {
   console.log("🚀 Deploying Veritas Protocol to Celo Alfajores Testnet...")
   console.log("━".repeat(60))
 
-  const [deployer] = await hre.ethers.getSigners()
-  const network = await hre.ethers.provider.getNetwork()
+  const [deployer] = await ethers.getSigners()
+  const network = await ethers.provider.getNetwork()
 
   console.log("📋 Deployment Details:")
   console.log(`   Network: ${network.name} (Chain ID: ${network.chainId})`)
   console.log(`   Deployer: ${deployer.address}`)
   
-  const balance = await hre.ethers.provider.getBalance(deployer.address)
-  console.log(`   Balance: ${hre.ethers.formatEther(balance)} CELO`)
+  const balance = await ethers.provider.getBalance(deployer.address)
+  console.log(`   Balance: ${ethers.formatEther(balance)} CELO`)
   console.log("━".repeat(60))
 
   if (balance === 0n) {
@@ -33,28 +34,38 @@ async function main() {
     process.exit(1)
   }
 
-  // Deploy VeritasSBT
-  console.log("\n📝 Deploying VeritasSBT...")
-  const VeritasSBT = await hre.ethers.getContractFactory("VeritasSBT")
-  const sbt = await VeritasSBT.deploy()
-  await sbt.waitForDeployment()
-  const sbtAddress = await sbt.getAddress()
-  console.log(`✅ VeritasSBT deployed to: ${sbtAddress}`)
+  const confirmations = 3
+  const skipVerify = process.argv.includes("--no-verify") || process.env.SKIP_VERIFY === "true"
+  const doVerify = !skipVerify && !!process.env.CELOSCAN_API_KEY
 
-  // Deploy VeritasZKVerifier
-  console.log("\n📝 Deploying VeritasZKVerifier...")
-  const VeritasZKVerifier = await hre.ethers.getContractFactory("VeritasZKVerifier")
-  const verifier = await VeritasZKVerifier.deploy(sbtAddress)
-  await verifier.waitForDeployment()
-  const verifierAddress = await verifier.getAddress()
-  console.log(`✅ VeritasZKVerifier deployed to: ${verifierAddress}`)
+  async function deployOne(name) {
+    console.log(`\n📝 Deploying ${name}...`)
+    const Factory = await ethers.getContractFactory(name)
+    const contract = await Factory.deploy()
+    await contract.waitForDeployment()
+    const address = await contract.getAddress()
+    const tx = contract.deploymentTransaction()
+    console.log(`✅ ${name} deployed to: ${address}`)
+    console.log(`⏳ Waiting for ${confirmations} confirmations...`)
+    await tx.wait(confirmations)
+    return { contract, address, tx }
+  }
+
+  // Deploy contracts
+  const veritasSBT = await deployOne("VeritasSBT")
+  const verifier = await deployOne("VeritasZKVerifier")
+
+  // Post deploy config - whitelist deployer as issuer
+  console.log("\n🔐 Whitelisting deployer as issuer in VeritasSBT...")
+  await (await veritasSBT.contract.setIssuerWhitelist(deployer.address, true)).wait()
+  console.log("✅ Whitelisted")
 
   console.log("\n━".repeat(60))
   console.log("📄 Deployment Summary:")
   console.log("━".repeat(60))
   console.log(`Network: Celo Alfajores Testnet (${network.chainId})`)
-  console.log(`VeritasSBT: ${sbtAddress}`)
-  console.log(`VeritasZKVerifier: ${verifierAddress}`)
+  console.log(`VeritasSBT: ${veritasSBT.address}`)
+  console.log(`VeritasZKVerifier: ${verifier.address}`)
   console.log(`Deployer: ${deployer.address}`)
   console.log(`Explorer: https://alfajores.celoscan.io`)
   console.log("━".repeat(60))
@@ -67,12 +78,12 @@ async function main() {
       deployer: deployer.address,
       contracts: {
         VeritasSBT: {
-          address: sbtAddress,
-          transactionHash: sbt.deploymentTransaction()?.hash || null,
+          address: veritasSBT.address,
+          transactionHash: veritasSBT.tx?.hash || null,
         },
         VeritasZKVerifier: {
-          address: verifierAddress,
-          transactionHash: verifier.deploymentTransaction()?.hash || null,
+          address: verifier.address,
+          transactionHash: verifier.tx?.hash || null,
         },
       },
     },
@@ -93,23 +104,38 @@ async function main() {
   // Save environment variables template
   console.log("\n📝 Add these to your .env.local file:")
   console.log("━".repeat(60))
-  console.log(`NEXT_PUBLIC_SBT_CONTRACT=${sbtAddress}`)
-  console.log(`NEXT_PUBLIC_VERIFIER_CONTRACT=${verifierAddress}`)
-  console.log(`NEXT_PUBLIC_CHAIN_ID=44787`)
+  console.log(`NEXT_PUBLIC_SBT_CONTRACT=${veritasSBT.address}`)
+  console.log(`NEXT_PUBLIC_VERIFIER_CONTRACT=${verifier.address}`)
+  console.log(`NEXT_PUBLIC_VERITAS_NETWORK=alfajores`)
   console.log(`NEXT_PUBLIC_CELO_ALFAJORES_RPC=https://alfajores-forno.celo-testnet.org`)
   console.log("━".repeat(60))
 
   // Verification instructions
   console.log("\n🔍 To verify contracts on CeloScan:")
   console.log("━".repeat(60))
-  console.log(`npx hardhat verify --network alfajores ${sbtAddress}`)
-  console.log(`npx hardhat verify --network alfajores ${verifierAddress} ${sbtAddress}`)
+  console.log(`npx hardhat verify --network alfajores ${veritasSBT.address}`)
+  console.log(`npx hardhat verify --network alfajores ${verifier.address}`)
   console.log("━".repeat(60))
+
+  // Optional verify
+  if (doVerify) {
+    console.log("\n🔍 Verifying on CeloScan...")
+    for (const c of [veritasSBT, verifier]) {
+      try {
+        await hre.run("verify:verify", { address: c.address, constructorArguments: [] })
+        console.log(`✅ Verified ${c.address}`)
+      } catch (e) {
+        console.log(`❌ Verification skipped/failed for ${c.address}: ${e.message}`)
+      }
+    }
+  } else {
+    console.log("\n⏭️  Skipping verification (no key or --no-verify)")
+  }
 
   console.log("\n✨ Deployment complete!")
   console.log(`\n🔗 View on CeloScan:`)
-  console.log(`   VeritasSBT: https://alfajores.celoscan.io/address/${sbtAddress}`)
-  console.log(`   VeritasZKVerifier: https://alfajores.celoscan.io/address/${verifierAddress}`)
+  console.log(`   VeritasSBT: https://alfajores.celoscan.io/address/${veritasSBT.address}`)
+  console.log(`   VeritasZKVerifier: https://alfajores.celoscan.io/address/${verifier.address}`)
 }
 
 main()

@@ -1,17 +1,17 @@
-const { ethers } = require("hardhat")
-const hre = require("hardhat") // Declare the hre variable
+const hre = require("hardhat")
 
 async function main() {
-  // Load deployed contract addresses
-  const deployedContracts = require("../deployed-contracts.json")
-
-  if (!deployedContracts.contracts) {
-    console.error("❌ No deployed contracts found. Run deployment first.")
+  // Load deployed contract addresses (per-network schema)
+  const data = require("../deployed-contracts.json")
+  const net = hre.network.name
+  const entry = data[net]
+  if (!entry || !entry.contracts) {
+    console.error(`❌ No deployed contracts found for network '${net}'. Run deployment first.`)
     return
   }
 
-  const sbtAddress = deployedContracts.contracts.VeritasSBT.address
-  const verifierAddress = deployedContracts.contracts.VeritasZKVerifier.address
+  const sbtAddress = entry.contracts.VeritasSBT.address
+  const verifierAddress = entry.contracts.VeritasZKVerifier.address
 
   console.log("🔍 Verifying deployed contracts...\n")
 
@@ -32,9 +32,10 @@ async function main() {
     })
     console.log("✅ VeritasZKVerifier verified successfully")
 
-    console.log("\n🎉 All contracts verified on Snowtrace!")
-    console.log(`🌐 VeritasSBT: https://testnet.snowtrace.io/address/${sbtAddress}`)
-    console.log(`🌐 VeritasZKVerifier: https://testnet.snowtrace.io/address/${verifierAddress}`)
+  const explorer = net === 'alfajores' ? 'https://alfajores.celoscan.io' : 'https://testnet.snowtrace.io'
+  console.log("\n🎉 All contracts verified!")
+  console.log(`🌐 VeritasSBT: ${explorer}/address/${sbtAddress}`)
+  console.log(`🌐 VeritasZKVerifier: ${explorer}/address/${verifierAddress}`)
   } catch (error) {
     console.error("❌ Verification failed:", error.message)
   }

@@ -59,6 +59,10 @@ const path = require('path');
 
   const lines = [
     `NEXT_PUBLIC_VERITAS_NETWORK=${network}`,
+    // Preferred names used by lib/config.ts
+    `NEXT_PUBLIC_SBT_CONTRACT=${contracts.VeritasSBT.address}`,
+    `NEXT_PUBLIC_VERIFIER_CONTRACT=${contracts.VeritasZKVerifier.address}`,
+    // Back-compat names some parts of the app may read
     `NEXT_PUBLIC_SBT_ADDRESS=${contracts.VeritasSBT.address}`,
     `NEXT_PUBLIC_VERIFIER_ADDRESS=${contracts.VeritasZKVerifier.address}`
   ]
