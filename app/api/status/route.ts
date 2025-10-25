@@ -11,10 +11,10 @@ export async function GET() {
         timestamp: new Date().toISOString(),
       },
       network: {
-        chainId: config.AVALANCHE_FUJI.chainId,
-        name: config.AVALANCHE_FUJI.name,
-        rpcUrl: config.AVALANCHE_FUJI.rpcUrl,
-        explorerUrl: config.AVALANCHE_FUJI.explorerUrl,
+        chainId: config.CELO_ALFAJORES.chainId,
+        name: config.CELO_ALFAJORES.name,
+        rpcUrl: config.CELO_ALFAJORES.rpcUrl,
+        explorerUrl: config.CELO_ALFAJORES.explorerUrl,
       },
       contracts: {
         sbt: config.CONTRACTS.SBT,

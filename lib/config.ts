@@ -1,18 +1,6 @@
 export const config = {
   // Network Configuration - Testnet Only Support
   NETWORKS: {
-    AVALANCHE_FUJI: {
-      chainId: 43113,
-      name: "Avalanche Fuji Testnet",
-      rpcUrl: process.env.NEXT_PUBLIC_AVALANCHE_FUJI_RPC || "https://api.avax-test.network/ext/bc/C/rpc",
-      explorerUrl: "https://testnet.snowtrace.io",
-      nativeCurrency: {
-        name: "AVAX",
-        symbol: "AVAX",
-        decimals: 18,
-      },
-      testnet: true,
-    },
     CELO_ALFAJORES: {
       chainId: 44787,
       name: "Celo Alfajores Testnet",
@@ -25,17 +13,29 @@ export const config = {
       },
       testnet: true,
     },
+    AVALANCHE_FUJI: {
+      chainId: 43113,
+      name: "Avalanche Fuji Testnet",
+      rpcUrl: process.env.NEXT_PUBLIC_AVALANCHE_FUJI_RPC || "https://api.avax-test.network/ext/bc/C/rpc",
+      explorerUrl: "https://testnet.snowtrace.io",
+      nativeCurrency: {
+        name: "AVAX",
+        symbol: "AVAX",
+        decimals: 18,
+      },
+      testnet: true,
+    },
   },
 
   // Legacy - kept for backward compatibility
-  AVALANCHE_FUJI: {
-    chainId: 43113,
-    name: "Avalanche Fuji Testnet",
-    rpcUrl: process.env.NEXT_PUBLIC_AVALANCHE_FUJI_RPC || "https://api.avax-test.network/ext/bc/C/rpc",
-    explorerUrl: process.env.NEXT_PUBLIC_EXPLORER_URL || "https://testnet.snowtrace.io",
+  CELO_ALFAJORES: {
+    chainId: 44787,
+    name: "Celo Alfajores Testnet",
+    rpcUrl: process.env.NEXT_PUBLIC_CELO_ALFAJORES_RPC || "https://alfajores-forno.celo-testnet.org",
+    explorerUrl: process.env.NEXT_PUBLIC_EXPLORER_URL || "https://alfajores.celoscan.io",
     nativeCurrency: {
-      name: "AVAX",
-      symbol: "AVAX",
+      name: "CELO",
+      symbol: "CELO",
       decimals: 18,
     },
   },

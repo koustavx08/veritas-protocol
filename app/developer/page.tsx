@@ -129,7 +129,7 @@ export default function DeveloperPortal() {
               Developer Portal
             </h1>
             <p className="text-gray-400 mt-2">
-              Manage your credentials and generate zero-knowledge proofs on Avalanche Fuji
+                Manage your credentials and generate zero-knowledge proofs on Celo Alfajores
             </p>
           </div>
           <WalletConnectButton onConnect={handleConnect} onDisconnect={handleDisconnect} showNetwork />
@@ -141,7 +141,7 @@ export default function DeveloperPortal() {
               <Shield className="w-16 h-16 text-green-500 mx-auto mb-4" />
               <h2 className="text-xl font-semibold mb-2">Connect Your Wallet</h2>
               <p className="text-gray-400 mb-6">
-                Connect your wallet to Avalanche Fuji to view your credentials and generate proofs.
+                  Connect your wallet to Celo Alfajores to view your credentials and generate proofs.
               </p>
               <WalletConnectButton onConnect={handleConnect} onDisconnect={handleDisconnect} />
             </CardContent>
@@ -199,7 +199,7 @@ export default function DeveloperPortal() {
                       <ExternalLink className="w-6 h-6 text-orange-500" />
                     </div>
                     <div>
-                      <p className="text-lg font-bold">Fuji</p>
+                        <p className="text-lg font-bold">Alfajores</p>
                       <p className="text-gray-400 text-sm">Network</p>
                     </div>
                   </div>
@@ -252,9 +252,9 @@ export default function DeveloperPortal() {
                       <RefreshCw className="w-4 h-4 mr-2" />
                       Refresh
                     </Button>
-                    <Button variant="outline" onClick={() => window.open("https://faucet.avax.network/", "_blank")}>
+                      <Button variant="outline" onClick={() => window.open("https://faucet.celo.org/alfajores", "_blank")}>
                       <ExternalLink className="w-4 h-4 mr-2" />
-                      Get Test AVAX
+                        Get Test CELO
                     </Button>
                   </div>
                 </CardContent>

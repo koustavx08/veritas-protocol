@@ -104,6 +104,29 @@ export class BlockchainService {
     // The actual network will be set by the NetworkProvider
   }
 
+  /**
+   * Backward-compat helper for UI: create a simple proof request with defaults
+   * - criteriaHash: zeros (placeholder)
+   * - expiryTime: now + 7 days (in seconds)
+   */
+  async createProofRequest(requiredCredentials: string[]): Promise<string | null> {
+    try {
+      const criteriaHash = `0x${'0'.repeat(64)}` as `0x${string}`
+      const expiry = Math.floor(Date.now() / 1000) + 7 * 24 * 60 * 60
+      return await this.createVerificationRequest(requiredCredentials, criteriaHash, expiry)
+    } catch (e) {
+      console.error('Failed to create proof request:', e)
+      return null
+    }
+  }
+
+  /**
+   * Backward-compat helper for UI: fetch a proof submission by id
+   */
+  async verifyProofById(proofId: string): Promise<ProofSubmission | null> {
+    return this.getProofSubmission(proofId)
+  }
+
   setNetwork(network: NetworkConfig) {
     this.currentNetwork = network
     this.initializePublicClient()

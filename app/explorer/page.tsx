@@ -114,7 +114,7 @@ export default function CredentialExplorer() {
             Credential Explorer
           </h1>
           <p className="text-gray-400 text-lg max-w-2xl mx-auto">
-            Explore the public registry of professional credentials on Avalanche Fuji Testnet
+          Explore the public registry of professional credentials on Celo Alfajores Testnet
           </p>
         </div>
 

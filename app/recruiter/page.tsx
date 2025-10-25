@@ -119,7 +119,7 @@ export default function RecruiterVerifierPortal() {
               Recruiter Verifier Portal
             </h1>
             <p className="text-gray-400 mt-2">
-              Create verification requests and validate zero-knowledge proofs on Avalanche Fuji
+                Create verification requests and validate zero-knowledge proofs on Celo Alfajores
             </p>
           </div>
           <WalletConnectButton onConnect={handleConnect} onDisconnect={handleDisconnect} showNetwork />
@@ -131,7 +131,7 @@ export default function RecruiterVerifierPortal() {
               <Shield className="w-16 h-16 text-purple-500 mx-auto mb-4" />
               <h2 className="text-xl font-semibold mb-2">Connect Your Wallet</h2>
               <p className="text-gray-400 mb-6">
-                Connect your wallet to Avalanche Fuji to create verification requests and validate proofs.
+                  Connect your wallet to Celo Alfajores to create verification requests and validate proofs.
               </p>
               <WalletConnectButton onConnect={handleConnect} onDisconnect={handleDisconnect} />
             </CardContent>
@@ -206,7 +206,7 @@ export default function RecruiterVerifierPortal() {
                       {isVerifying ? (
                         <>
                           <Clock className="w-4 h-4 mr-2 animate-spin" />
-                          Verifying on Fuji...
+                            Verifying on Alfajores...
                         </>
                       ) : (
                         <>
@@ -311,7 +311,7 @@ export default function RecruiterVerifierPortal() {
                                   }
                                 >
                                   <ExternalLink className="w-3 h-3 mr-1" />
-                                  View on Fuji
+                                    View on CeloScan
                                 </Button>
                               </div>
                             )}

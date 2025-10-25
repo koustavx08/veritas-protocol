@@ -25,7 +25,7 @@ const AVAILABLE_TESTNETS: Record<string, NetworkConfig> = {
 
 export function NetworkProvider({ children }: { children: ReactNode }) {
   const [mode, setMode] = useState<Mode>('testnet')
-  const initial = (process?.env?.NEXT_PUBLIC_VERITAS_NETWORK === 'alfajores') ? CELO_ALFAJORES : AVALANCHE_FUJI
+  const initial = (process?.env?.NEXT_PUBLIC_VERITAS_NETWORK === 'fuji') ? AVALANCHE_FUJI : CELO_ALFAJORES
   const [currentNetwork, setCurrentNetwork] = useState<NetworkConfig>(initial)
   const [isCorrectNetwork, setIsCorrectNetwork] = useState<boolean>(true)
 

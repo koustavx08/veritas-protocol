@@ -10,6 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Badge } from "@/components/ui/badge"
 import { WalletConnectButton } from "@/components/wallet-connect-button"
 import { Award, Send, Shield, CheckCircle, XCircle, ExternalLink } from "lucide-react"
+import { keccak256, stringToHex } from "viem"
 import { blockchainService } from "@/lib/blockchain"
 import { toast } from "sonner"
 
@@ -113,11 +114,16 @@ export default function IssuerDashboard() {
         version: "1.0",
       }
 
+      const metadataStr = JSON.stringify(metadata)
+      const metadataHash = keccak256(stringToHex(metadataStr))
+      const metadataURI = `data:application/json;utf-8,${encodeURIComponent(metadataStr)}`
+
       const tokenId = await blockchainService.mintCredential(
         formData.recipientAddress,
         formData.credentialType,
         formData.issuerName,
-        metadata,
+        metadataHash,
+        metadataURI,
       )
 
       if (tokenId) {
@@ -168,7 +174,7 @@ export default function IssuerDashboard() {
               Issuer Dashboard
             </h1>
             <p className="text-gray-400 mt-2">
-              Mint Soulbound Tokens for verified professional credentials on Avalanche Fuji
+                Mint Soulbound Tokens for verified professional credentials on Celo Alfajores
             </p>
           </div>
           <WalletConnectButton onConnect={handleConnect} onDisconnect={handleDisconnect} showNetwork />
@@ -180,7 +186,7 @@ export default function IssuerDashboard() {
               <Shield className="w-16 h-16 text-blue-500 mx-auto mb-4" />
               <h2 className="text-xl font-semibold mb-2">Connect Your Wallet</h2>
               <p className="text-gray-400 mb-6">
-                Connect your wallet to Avalanche Fuji testnet to start issuing credentials.
+                  Connect your wallet to Celo Alfajores testnet to start issuing credentials.
               </p>
               <WalletConnectButton onConnect={handleConnect} onDisconnect={handleDisconnect} />
             </CardContent>
@@ -279,10 +285,10 @@ export default function IssuerDashboard() {
                       value={formData.additionalData}
                       onChange={(e) => handleInputChange("additionalData", e.target.value)}
                       className={`mt-1 font-mono text-sm ${
-                        formData.additionalData && !validateJSON(formData.additionalData) ? "border-red-500" : ""
+                        (!!formData.additionalData && !validateJSON(formData.additionalData)) ? "border-red-500" : ""
                       }`}
                     />
-                    {formData.additionalData && !validateJSON(formData.additionalData) && (
+                    {!!formData.additionalData && !validateJSON(formData.additionalData) && (
                       <p className="text-red-400 text-sm mt-1">Invalid JSON format</p>
                     )}
                   </div>
@@ -290,7 +296,9 @@ export default function IssuerDashboard() {
                   <Button
                     onClick={mintCredential}
                     disabled={
-                      isMinting || !isWhitelisted || (formData.additionalData && !validateJSON(formData.additionalData))
+                      isMinting ||
+                      !isWhitelisted ||
+                      (!!formData.additionalData && !validateJSON(formData.additionalData))
                     }
                     className="w-full bg-blue-600 hover:bg-blue-700"
                     size="lg"
