@@ -16,18 +16,17 @@
   },
   "alfajores": {
     "chainId": 44787,
-    "timestamp": null,
-    "deployer": null,
+    "timestamp": "2025-10-25T10:42:49.405Z",
+    "deployer": "0x0C4e44e1e4641fabb07c756fb522C21a0BEc6c08",
     "contracts": {
       "VeritasSBT": {
-        "address": null,
-        "transactionHash": null
+        "address": "0xbde9e4a27474340FcB461C0386BFCf0414e7e1B5",
+        "transactionHash": "0x7e6f557056bcc3e41b2f507fce1ebb11e1a3037b9523a0a519c197e1f60a6c0b"
       },
       "VeritasZKVerifier": {
-        "address": null,
-        "transactionHash": null
+        "address": "0xDeDe4DC9ed5Fd67799E978273f818Ac87417bcd8",
+        "transactionHash": "0xa76d763078875e367af9c844defff3aa5d28c6ad164491c72aff0b17be0754a9"
       }
-    },
-    "note": "Deploy contracts using: npm run deploy:alfajores"
+    }
   }
 }

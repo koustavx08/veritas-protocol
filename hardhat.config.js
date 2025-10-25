@@ -34,7 +34,7 @@ module.exports = {
       url: process.env.CELO_ALFAJORES_RPC_URL || "https://alfajores-forno.celo-testnet.org",
       accounts: process.env.PRIVATE_KEY ? [process.env.PRIVATE_KEY] : [],
       chainId: 44787,
-      gasPrice: 5000000000, // 5 gwei (Celo has lower gas fees)
+      // Let the network determine gas fees automatically (EIP-1559)
       gas: 8000000,
     },
   },
