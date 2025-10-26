@@ -13,6 +13,13 @@ const config: Config = {
   theme: {
   	extend: {
   		colors: {
+  			// Veritas Protocol Brand Colors
+  			'veritas-dark': '#0E1117',
+  			'veritas-card': '#1A1F25',
+  			'veritas-accent': '#14F195',
+  			'veritas-accent-alt': '#00BFA6',
+  			'veritas-soft': '#D9E3EA',
+  			'veritas-border': '#2D3748',
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
   			card: {
