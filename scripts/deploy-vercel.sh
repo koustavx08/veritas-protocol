@@ -16,7 +16,7 @@ vercel env add NEXT_PUBLIC_SBT_CONTRACT production
 vercel env add NEXT_PUBLIC_VERIFIER_CONTRACT production
 
 # Network configuration
-vercel env add NEXT_PUBLIC_AVALANCHE_FUJI_RPC production
+vercel env add NEXT_PUBLIC_CELO_ALFAJORES_RPC production
 vercel env add NEXT_PUBLIC_CHAIN_ID production
 vercel env add NEXT_PUBLIC_EXPLORER_URL production
 

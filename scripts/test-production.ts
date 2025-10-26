@@ -1,7 +1,7 @@
 #!/usr/bin/env tsx
 
 import { createPublicClient, http } from "viem"
-import { avalancheFuji } from "viem/chains"
+import { celoAlfajores } from "viem/chains"
 import config from "../lib/config"
 
 interface TestResult {
@@ -17,8 +17,8 @@ class ProductionTester {
 
   constructor() {
     this.publicClient = createPublicClient({
-      chain: avalancheFuji,
-      transport: http(config.AVALANCHE_FUJI.rpcUrl),
+      chain: celoAlfajores,
+      transport: http(config.CELO_ALFAJORES.rpcUrl),
     })
   }
 
@@ -37,12 +37,12 @@ class ProductionTester {
       this.addResult(
         "Network Connectivity",
         "pass",
-        `Connected to Avalanche Fuji, latest block: ${blockNumber}`,
+        `Connected to Celo Alfajores, latest block: ${blockNumber}`,
         duration,
       )
     } catch (error) {
-      const duration = Date.now() - start
-      this.addResult("Network Connectivity", "fail", `Failed to connect to Avalanche Fuji: ${error}`, duration)
+  const duration = Date.now() - start
+  this.addResult("Network Connectivity", "fail", `Failed to connect to Celo Alfajores: ${error}`, duration)
     }
   }
 
@@ -122,7 +122,7 @@ class ProductionTester {
     const requiredEnvVars = [
       "NEXT_PUBLIC_SBT_CONTRACT",
       "NEXT_PUBLIC_VERIFIER_CONTRACT",
-      "NEXT_PUBLIC_AVALANCHE_FUJI_RPC",
+      "NEXT_PUBLIC_CELO_ALFAJORES_RPC",
       "NEXT_PUBLIC_CHAIN_ID",
       "NEXT_PUBLIC_EXPLORER_URL",
     ]
@@ -204,10 +204,10 @@ class ProductionTester {
 
     if (failed === 0) {
       console.log("\n🎉 All tests passed! Veritas Protocol is ready for production.")
-      process.exit(0)
+      (process as any).exit(0)
     } else {
       console.log("\n💥 Some tests failed. Please fix the issues before deploying to production.")
-      process.exit(1)
+      (process as any).exit(1)
     }
   }
 }

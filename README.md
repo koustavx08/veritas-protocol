@@ -1,12 +1,12 @@
 # Veritas Protocol
 
-Privacy‑preserving professional credential verification using Soulbound Tokens (SBTs) and Zero‑Knowledge (ZK) proofs. This monorepo contains a Next.js dApp, Hardhat smart contracts, basic Noir circuit scaffolding, and multi‑chain testnet support for Avalanche Fuji and Celo Alfajores.
+Privacy‑preserving professional credential verification using Soulbound Tokens (SBTs) and Zero‑Knowledge (ZK) proofs. This monorepo contains a Next.js dApp, Hardhat smart contracts, basic Noir circuit scaffolding, and testnet support for Celo Alfajores.
 
 ## Highlights
 
 - Soulbound credentials with OpenZeppelin ERC721 + non‑transferability guards
 - ZK verifier contract (Noir‑style input shape; simulated proof generation in UI)
-- Multi‑chain testnet support (Avalanche Fuji 43113, Celo Alfajores 44787)
+- Testnet support (Celo Alfajores 44787)
 - Clean Next.js 14 UI (App Router, Tailwind, shadcn/ui, RainbowKit + wagmi + viem)
 - One‑command deploy scripts, optional contract verification, and JSON address registry
 - Basic explorer, issuer, recruiter, and developer pages
@@ -16,7 +16,7 @@ Privacy‑preserving professional credential verification using Soulbound Tokens
 - Frontend: Next.js 14 (TypeScript), TailwindCSS, shadcn/ui, wagmi, RainbowKit, viem
 - Contracts: Hardhat, Solidity 0.8.19, OpenZeppelin, gas‑optimized, test coverage
 - ZK: Noir circuit scaffold in `circuits/` and a simulated prover in `lib/zk-proof-service.ts`
-- Networks: Testnet‑only mode (Fuji, Alfajores) managed via `lib/networks.ts` and context
+Networks: Testnet‑only mode (Celo Alfajores) managed via `lib/networks.ts` and context
 - Addresses: Stored in `deployed-contracts.json` per network and consumed by the dApp
 
 ## Repo layout
@@ -47,7 +47,6 @@ See tests in `test/*.test.js` for usage and invariants.
 - Node.js 18+ (recommended for Next.js 14)
 - pnpm 8+ (preferred) or npm
 - A wallet private key with testnet funds for deployment
-  - Avalanche Fuji faucet: https://faucet.avax.network
   - Celo Alfajores faucet: https://faucet.celo.org/alfajores
 
 ## Installation
@@ -56,7 +55,7 @@ See tests in `test/*.test.js` for usage and invariants.
 pnpm install
 ```
 
-## Environment setup
+# Environment setup
 
 Create a `.env` for Hardhat deployments:
 
@@ -65,22 +64,19 @@ Create a `.env` for Hardhat deployments:
 PRIVATE_KEY=your_private_key
 
 # RPC endpoints (optional; defaults exist)
-AVALANCHE_FUJI_RPC_URL=https://api.avax-test.network/ext/bc/C/rpc
 CELO_ALFAJORES_RPC_URL=https://alfajores-forno.celo-testnet.org
 
-# Explorer API keys (optional, for verification)
-SNOWTRACE_API_KEY=your_snowtrace_key
+# Explorer API key (optional, for verification)
 CELOSCAN_API_KEY=your_celoscan_key
 ```
 
 Frontend `.env.local` is optional. The dApp prefers `deployed-contracts.json` for addresses. You may still provide RPC overrides and feature flags:
 
 ```env
-# Chain to prefer in UI (43113 Fuji or 44787 Alfajores)
-NEXT_PUBLIC_CHAIN_ID=43113
+# Chain to prefer in UI (44787 Alfajores)
+NEXT_PUBLIC_CHAIN_ID=44787
 
 # Optional RPC overrides
-NEXT_PUBLIC_AVALANCHE_FUJI_RPC=https://api.avax-test.network/ext/bc/C/rpc
 NEXT_PUBLIC_CELO_ALFAJORES_RPC=https://alfajores-forno.celo-testnet.org
 
 # Optional contract overrides (normally not needed)
@@ -113,10 +109,8 @@ Network utilities and deploy:
 ```bat
 pnpm test:networks   :: node scripts/test-network-connectivity.js
 
-pnpm deploy:fuji     :: compile + deploy to Avalanche Fuji
 pnpm deploy:alfajores:: compile + deploy to Celo Alfajores
 
-pnpm verify:fuji     :: verify contracts on Snowtrace
 pnpm verify:alfajores:: verify contracts on CeloScan
 
 pnpm export:env      :: write env from deployed-contracts.json (see notes)
@@ -132,7 +126,7 @@ Notes:
   ```bat
   pnpm dev
   ```
-  Visit http://localhost:3000 and connect a wallet (RainbowKit/MetaMask). The default UI network is Avalanche Fuji; you can adapt via `contexts/network-context.tsx`.
+  Visit http://localhost:3000 and connect a wallet (RainbowKit/MetaMask). The default UI network is Celo Alfajores; you can adapt via `contexts/network-context.tsx`.
 
 - Compile and test contracts:
   ```bat
@@ -144,28 +138,23 @@ Notes:
 
 Make sure `.env` is configured and your deployer has testnet funds.
 
-- Avalanche Fuji (43113):
+-- Celo Alfajores (44787):
   ```bat
-  pnpm deploy:fuji
+  pnpm deploy:alfajores
   ```
   This will:
   - Deploy `VeritasSBT` and `VeritasZKVerifier`
   - Whitelist the deployer as an issuer (SBT)
   - Write/merge entries in `deployed-contracts.json`
-  - Optionally verify on Snowtrace if `SNOWTRACE_API_KEY` is provided
-
-- Celo Alfajores (44787):
-  ```bat
-  pnpm deploy:alfajores
-  ```
+  - Optionally verify on CeloScan if `CELOSCAN_API_KEY` is provided
+  
   Post‑deploy, copy the printed addresses (or use the JSON file) if you want env overrides.
 
 ## Multi‑chain support (testnet‑only)
 
 Supported networks are defined in `lib/networks.ts` and consumed via `contexts/network-context.tsx` and `lib/blockchain.ts`:
 
-- Avalanche Fuji (43113) — explorer: https://testnet.snowtrace.io
-- Celo Alfajores (44787) — explorer: https://alfajores.celoscan.io
+-- Celo Alfajores (44787) — explorer: https://alfajores.celoscan.io
 
 For background and comparison, see:
 - `TESTNET_ONLY_CONFIG.md`
@@ -201,7 +190,7 @@ For background and comparison, see:
 
 ## Related docs
 
-- `DEPLOYMENT.md` – Avalanche‑focused deployment notes
+- `DEPLOYMENT.md` – Deployment notes (Celo Alfajores)
 - `DEPLOYMENT_GUIDE.md` – Additional deployment guidance
 - `QUICK_START_MULTICHAIN.md` – Pick your network and ship
 - `CELO_INTEGRATION.md` / `CELO_INTEGRATION_SUMMARY.md` – Celo support details

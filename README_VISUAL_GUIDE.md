@@ -11,7 +11,7 @@
 └──────────────────────────────────────────────────────────────┘
 
     ┌─────────────────┐              ┌─────────────────┐
-    │   AVALANCHE     │              │      CELO       │
+  │     CELO        │              │      CELO       │
     │   ECOSYSTEM     │              │   ECOSYSTEM     │
     └─────────────────┘              └─────────────────┘
             │                                │
@@ -19,8 +19,8 @@
     ┌───────┴──────┐               ┌────────┴───────┐
     │              │               │                │
 ┌───▼────┐   ┌────▼───┐      ┌────▼────┐    ┌─────▼──────┐
-│  Fuji  │   │Mainnet │      │Alfajores│    │   Mainnet  │
-│ 43113  │   │ 43114  │      │  44787  │    │   42220    │
+│ Alfajores │   │Mainnet │      │Alfajores│    │   Mainnet  │
+│ 44787  │   │ 42220  │      │  44787  │    │   42220    │
 │  ✅    │   │   🌐   │      │   🆕    │    │    🌐     │
 └────────┘   └────────┘      └─────────┘    └────────────┘
  Deployed     Ready          Ready to       Ready to
@@ -34,25 +34,25 @@
 | **Test networks** | `npm run test:networks` |
 | **Deploy to Celo testnet** | `npm run deploy:alfajores` |
 | **Deploy to Celo mainnet** | `npm run deploy:celo` |
-| **Deploy to Avalanche testnet** | `npm run deploy` |
-| **Deploy to Avalanche mainnet** | `npm run deploy:avalanche` |
+| **Deploy to Celo testnet** | `npm run deploy:alfajores` |
+| **Deploy to Celo mainnet** | `npm run deploy:celo` |
 | **Verify on Celo** | `npm run verify:alfajores` |
 | **Start frontend** | `npm run dev` |
 
 ## 📊 Network Comparison at a Glance
 
 ```
-                    AVALANCHE         |         CELO
+                    CELO              |         CELO
                     ─────────         |         ────
-Chain ID            43113 / 43114     |    44787 / 42220
-Gas Token           AVAX              |    CELO
-Gas Price           ~25 gwei          |    ~5 gwei ⭐
-Block Time          ~2 seconds        |    ~5 seconds
-Cost                Higher            |    Lower ⭐
-Speed               Faster ⭐         |    Fast
-Mobile              Standard          |    Optimized ⭐
-Best For            DeFi, Gaming      |    Mobile, Real-world ⭐
-Ecosystem           Large             |    Growing
+Chain ID            44787 / 42220     |    44787 / 42220
+Gas Token           CELO              |    CELO
+Gas Price           ~5 gwei           |    ~5 gwei ⭐
+Block Time          ~5 seconds        |    ~5 seconds
+Cost                Lower ⭐           |    Lower ⭐
+Speed               Fast              |    Fast
+Mobile              Optimized ⭐       |    Optimized ⭐
+Best For            Mobile, Real-world⭐|    Mobile, Real-world ⭐
+Ecosystem           Growing           |    Growing
 ```
 
 ## 🚀 Deployment Flow
@@ -66,10 +66,10 @@ START
   │   │   ├─ npm run deploy:alfajores
   │   │   └─ npm run verify:alfajores
   │   │
-  │   └─ Avalanche (For high throughput)
-  │       ├─ Get AVAX from faucet
-  │       ├─ npm run deploy
-  │       └─ npm run verify
+  │   └─ Celo (For general purpose)
+  │       ├─ Get CELO from faucet
+  │       ├─ npm run deploy:alfajores
+  │       └─ npm run verify:alfajores
   │
   ├─ Update .env.local
   │   ├─ NEXT_PUBLIC_CHAIN_ID
@@ -95,7 +95,7 @@ Transaction: Mint Credential (200,000 gas)
 ┌─────────────┬──────────┬──────────────┐
 │   Network   │ Gas Cost │ USD Cost*    │
 ├─────────────┼──────────┼──────────────┤
-│ Avalanche   │ 0.005    │ ~$0.15       │
+│ Celo        │ 0.001    │ ~$0.03 ⭐    │
 │ Celo        │ 0.001    │ ~$0.03 ⭐    │
 └─────────────┴──────────┴──────────────┘
 
@@ -106,7 +106,8 @@ Transaction: Mint Credential (200,000 gas)
 
 ```
 ┌─────────────────────────────────────┐
-│        AVALANCHE                    │
+│        CELO                          │
+│  ✓ Valora (Mobile-optimized) ⭐⭐   │
 │  ✓ MetaMask Mobile                  │
 │  ✓ Coinbase Wallet                  │
 │  ✓ WalletConnect                    │
@@ -129,10 +130,12 @@ Transaction: Mint Credential (200,000 gas)
         ┌────────────────────────────┐
         │    🌍 Global Coverage      │
         │                            │
-        │  Avalanche                 │
-        │  ├─ North America ⭐⭐⭐   │
-        │  ├─ Europe ⭐⭐            │
-        │  └─ Asia ⭐⭐              │
+        │  Celo                      │
+        │  ├─ North America ⭐⭐      │
+        │  ├─ Europe ⭐⭐             │
+        │  ├─ Asia ⭐⭐               │
+        │  ├─ Latin America ⭐⭐⭐    │
+        │  └─ Africa ⭐⭐⭐           │
         │                            │
         │  Celo                      │
         │  ├─ North America ⭐⭐      │
@@ -152,7 +155,7 @@ Transaction: Mint Credential (200,000 gas)
 │  └─ CELO_INTEGRATION.md (Full Celo guide)
 │
 ├─ Deployment
-│  ├─ DEPLOYMENT_GUIDE.md (Avalanche)
+│  ├─ DEPLOYMENT_GUIDE.md (Celo)
 │  └─ scripts/deploy-*.js
 │
 ├─ Configuration
@@ -220,7 +223,7 @@ Problem?
   │   └─ Increase gas price
   │
   ├─ Contract verification fails
-  │   ├─ Get API key (CeloScan/SnowTrace)
+  │   ├─ Get API key (CeloScan)
   │   ├─ Wait 1-2 minutes
   │   └─ Check compiler version
   │
@@ -282,12 +285,12 @@ Production
 
 ## 📞 Quick Links
 
-| Resource | Avalanche | Celo |
-|----------|-----------|------|
-| **Docs** | [docs.avax.network](https://docs.avax.network) | [docs.celo.org](https://docs.celo.org) |
-| **Faucet** | [faucet.avax.network](https://faucet.avax.network) | [faucet.celo.org/alfajores](https://faucet.celo.org/alfajores) |
-| **Explorer** | [testnet.snowtrace.io](https://testnet.snowtrace.io) | [alfajores.celoscan.io](https://alfajores.celoscan.io) |
-| **Discord** | [Avalanche Discord](https://discord.gg/avalanche) | [Celo Discord](https://discord.com/invite/celo) |
+| Resource | Celo | Celo |
+|----------|------|------|
+| **Docs** | [docs.celo.org](https://docs.celo.org) | [docs.celo.org](https://docs.celo.org) |
+| **Faucet** | [faucet.celo.org/alfajores](https://faucet.celo.org/alfajores) | [faucet.celo.org/alfajores](https://faucet.celo.org/alfajores) |
+| **Explorer** | [alfajores.celoscan.io](https://alfajores.celoscan.io) | [alfajores.celoscan.io](https://alfajores.celoscan.io) |
+| **Discord** | [Celo Discord](https://discord.com/invite/celo) | [Celo Discord](https://discord.com/invite/celo) |
 
 ## 🚀 Next Steps
 
@@ -308,7 +311,7 @@ Production
 │  5. Test the application             │
 │     Issue credentials, verify proofs  │
 │                                       │
-│  6. Compare with Avalanche           │
+│  6. Compare with other networks      │
 │     Analyze costs and performance     │
 └───────────────────────────────────────┘
 

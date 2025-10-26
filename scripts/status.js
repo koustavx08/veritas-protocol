@@ -37,8 +37,8 @@ async function main() {
     console.log(`  - Total Proof Requests: ${await verifier.getTotalProofRequests()}`)
 
     console.log("\n🌐 Explorer Links:")
-    console.log(`VeritasSBT: https://testnet.snowtrace.io/address/${sbtAddress}`)
-    console.log(`VeritasZKVerifier: https://testnet.snowtrace.io/address/${verifierAddress}`)
+  console.log(`VeritasSBT: https://alfajores.celoscan.io/address/${sbtAddress}`)
+  console.log(`VeritasZKVerifier: https://alfajores.celoscan.io/address/${verifierAddress}`)
   } catch (error) {
     console.error("❌ Error checking status:", error.message)
   }

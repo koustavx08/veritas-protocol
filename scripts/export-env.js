@@ -3,7 +3,7 @@ const path = require('path');
 
 // Usage: node scripts/export-env.js <network> [.env]
 (async () => {
-  const network = process.argv[2] || 'fuji'
+  const network = process.argv[2] || 'alfajores'
   const outFile = process.argv[3] || '.env'
   const file = path.join(__dirname, '..', 'deployed-contracts.json')
   if (!fs.existsSync(file)) {

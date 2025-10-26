@@ -13,18 +13,6 @@ export const config = {
       },
       testnet: true,
     },
-    AVALANCHE_FUJI: {
-      chainId: 43113,
-      name: "Avalanche Fuji Testnet",
-      rpcUrl: process.env.NEXT_PUBLIC_AVALANCHE_FUJI_RPC || "https://api.avax-test.network/ext/bc/C/rpc",
-      explorerUrl: "https://testnet.snowtrace.io",
-      nativeCurrency: {
-        name: "AVAX",
-        symbol: "AVAX",
-        decimals: 18,
-      },
-      testnet: true,
-    },
   },
 
   // Legacy - kept for backward compatibility

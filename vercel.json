@@ -10,9 +10,9 @@
     }
   },
   "env": {
-    "NEXT_PUBLIC_AVALANCHE_FUJI_RPC": "https://api.avax-test.network/ext/bc/C/rpc",
-    "NEXT_PUBLIC_CHAIN_ID": "43113",
-    "NEXT_PUBLIC_EXPLORER_URL": "https://testnet.snowtrace.io"
+    "NEXT_PUBLIC_CELO_ALFAJORES_RPC": "https://alfajores-forno.celo-testnet.org",
+    "NEXT_PUBLIC_CHAIN_ID": "44787",
+    "NEXT_PUBLIC_EXPLORER_URL": "https://alfajores.celoscan.io"
   },
   "headers": [
     {

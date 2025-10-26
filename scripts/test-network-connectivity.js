@@ -1,11 +1,8 @@
 /**
  * Test Multi-Chain Network Connectivity
  * 
- * This script tests connectivity to all supported networks:
- * - Avalanche Fuji Testnet
- * - Avalanche Mainnet
+ * This script tests connectivity to the supported network:
  * - Celo Alfajores Testnet
- * - Celo Mainnet
  * 
  * Run: node scripts/test-network-connectivity.js
  */
@@ -13,13 +10,6 @@
 const hre = require("hardhat")
 
 const NETWORKS = {
-  fuji: {
-    name: "Avalanche Fuji Testnet",
-    chainId: 43113,
-    rpc: "https://api.avax-test.network/ext/bc/C/rpc",
-    explorer: "https://testnet.snowtrace.io",
-    token: "AVAX",
-  },
   alfajores: {
     name: "Celo Alfajores Testnet",
     chainId: 44787,
@@ -193,13 +183,10 @@ async function main() {
   // Recommendations
   console.log(`\n💡 Recommendations:`)
   console.log(`   • Use Celo Alfajores for lower gas fees`)
-  console.log(`   • Use Avalanche Fuji for higher throughput`)
-  console.log(`   • Test both networks to compare performance`)
   console.log(`   • Compare gas costs before choosing primary network`)
 
   console.log(`\n📚 Next Steps:`)
   console.log(`   1. Deploy to Celo: npm run deploy:alfajores`)
-  console.log(`   2. Deploy to Avalanche: npm run deploy:fuji`)
   console.log(`   3. Verify contracts on explorers`)
   console.log(`   4. Test credential issuance on both`)
   console.log(`   5. Compare gas costs and performance`)

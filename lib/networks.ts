@@ -1,6 +1,6 @@
 import { Chain } from 'viem'
 
-// Testnet-only support: Avalanche Fuji & Celo Alfajores
+// Testnet-only support: Celo Alfajores
 export type NetworkMode = 'testnet'
 
 export interface NetworkConfig {
@@ -24,30 +24,6 @@ export interface NetworkConfig {
     default: { name: string; url: string }
   }
   testnet: boolean
-}
-
-// Avalanche Fuji Testnet
-export const AVALANCHE_FUJI: NetworkConfig = {
-  id: 43113,
-  name: 'Avalanche Fuji',
-  network: 'fuji',
-  nativeCurrency: {
-    decimals: 18,
-    name: 'AVAX',
-    symbol: 'AVAX',
-  },
-  rpcUrls: {
-    default: {
-      http: ['https://api.avax-test.network/ext/bc/C/rpc'],
-    },
-    public: {
-      http: ['https://api.avax-test.network/ext/bc/C/rpc'],
-    },
-  },
-  blockExplorers: {
-    default: { name: 'SnowTrace', url: 'https://testnet.snowtrace.io' },
-  },
-  testnet: true,
 }
 
 // Celo Alfajores Testnet
@@ -76,7 +52,6 @@ export const CELO_ALFAJORES: NetworkConfig = {
 
 // Supported Networks (Testnets Only)
 export const SUPPORTED_NETWORKS: NetworkConfig[] = [
-  AVALANCHE_FUJI,
   CELO_ALFAJORES,
 ]
 

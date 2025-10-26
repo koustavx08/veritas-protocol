@@ -15,11 +15,11 @@ async function main() {
 
   // Check balance
   const balance = await ethers.provider.getBalance(deployer.address)
-  const nativeSymbol = [43113, 43114].includes(Number(networkInfo.chainId)) ? "AVAX" : "ETH"
+  const nativeSymbol = Number(networkInfo.chainId) === 44787 ? "CELO" : "ETH"
   console.log("💰 Account balance:", ethers.formatEther(balance), nativeSymbol + "\n")
 
   if (balance < ethers.parseEther("0.1")) {
-    console.warn("⚠️  Warning: Low balance. You may need more AVAX for deployment.\n")
+    console.warn("⚠️  Warning: Low balance. You may need more CELO for deployment.\n")
   }
 
   try {
@@ -110,15 +110,15 @@ async function main() {
     await whitelistTx.wait()
     console.log("✅ Deployer whitelisted as issuer")
 
-    // Verify contracts on Snowtrace (optional - only if API key is provided)
-    if (process.env.SNOWTRACE_API_KEY && process.env.SNOWTRACE_API_KEY !== "your_snowtrace_api_key_here") {
-      console.log("\n🔍 Verifying contracts on Snowtrace...")
+    // Verify contracts on CeloScan (optional - only if API key is provided)
+    if (process.env.CELOSCAN_API_KEY && process.env.CELOSCAN_API_KEY !== "your_celoscan_key") {
+      console.log("\n🔍 Verifying contracts on CeloScan...")
       try {
         await hre.run("verify:verify", {
           address: sbtAddress,
           constructorArguments: [],
         })
-        console.log("✅ VeritasSBT verified on Snowtrace")
+        console.log("✅ VeritasSBT verified on CeloScan")
       } catch (error) {
         console.log("❌ VeritasSBT verification failed:", error.message)
       }
@@ -128,23 +128,21 @@ async function main() {
           address: verifierAddress,
           constructorArguments: [],
         })
-        console.log("✅ VeritasZKVerifier verified on Snowtrace")
+        console.log("✅ VeritasZKVerifier verified on CeloScan")
       } catch (error) {
         console.log("❌ VeritasZKVerifier verification failed:", error.message)
       }
     } else {
-      console.log("\n⏭️  Skipping contract verification (no Snowtrace API key provided)")
+      console.log("\n⏭️  Skipping contract verification (no CeloScan API key provided)")
       console.log("💡 Note: Contracts are deployed and functional without verification")
-      console.log("💡 Verification is only needed for public source code viewing on Snowtrace")
+      console.log("💡 Verification is only needed for public source code viewing on CeloScan")
     }
 
-    if (["fuji", "mainnet"].includes(netName)) {
+    if (netName === 'alfajores') {
       console.log("\n🌐 Useful Links:")
-      console.log(`Snowtrace (VeritasSBT): https://testnet.snowtrace.io/address/${sbtAddress}`)
-      console.log(`Snowtrace (VeritasZKVerifier): https://testnet.snowtrace.io/address/${verifierAddress}`)
-      if (netName === "fuji") {
-        console.log(`Avalanche Fuji Faucet: https://faucet.avax.network/`)
-      }
+      console.log(`CeloScan (VeritasSBT): https://alfajores.celoscan.io/address/${sbtAddress}`)
+      console.log(`CeloScan (VeritasZKVerifier): https://alfajores.celoscan.io/address/${verifierAddress}`)
+      console.log(`Celo Alfajores Faucet: https://faucet.celo.org/alfajores`)
     }
 
     console.log("\n✨ Deployment complete! Ready to integrate with frontend.")

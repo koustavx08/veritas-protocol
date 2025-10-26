@@ -21,14 +21,6 @@ module.exports = {
       url: "http://127.0.0.1:8545",
       chainId: 31337,
     },
-    // Avalanche Fuji Testnet
-    fuji: {
-      url: process.env.AVALANCHE_FUJI_RPC_URL || "https://api.avax-test.network/ext/bc/C/rpc",
-      accounts: process.env.PRIVATE_KEY ? [process.env.PRIVATE_KEY] : [],
-      chainId: 43113,
-      gasPrice: 25000000000, // 25 gwei
-      gas: 8000000,
-    },
     // Celo Alfajores Testnet
     alfajores: {
       url: process.env.CELO_ALFAJORES_RPC_URL || "https://alfajores-forno.celo-testnet.org",
@@ -38,10 +30,8 @@ module.exports = {
       gas: 8000000,
     },
   },
-  etherscan: {
+    etherscan: {
     apiKey: {
-      // Avalanche Fuji Testnet
-      avalancheFujiTestnet: process.env.SNOWTRACE_API_KEY || "",
       // Celo Alfajores Testnet
       alfajores: process.env.CELOSCAN_API_KEY || "",
     },

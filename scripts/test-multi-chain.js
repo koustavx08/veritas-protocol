@@ -1,4 +1,4 @@
-// Test script for multi-chain functionality
+// Test script for multi-chain functionality (trimmed to Celo Alfajores)
 const { ethers } = require('ethers');
 const fs = require('fs');
 const path = require('path');
@@ -8,67 +8,19 @@ const deployedContracts = JSON.parse(
   fs.readFileSync(path.join(__dirname, '../deployed-contracts.json'), 'utf8')
 );
 
-// Network configurations
+// Network configurations (only Celo Alfajores is maintained for this repo)
 const networks = {
-  'avalanche-fuji': {
-    name: 'Avalanche Fuji Testnet',
-    chainId: 43113,
-    rpcUrl: 'https://api.avax-test.network/ext/bc/C/rpc',
-    explorer: 'https://testnet.snowtrace.io',
+  'alfajores': {
+    name: 'Celo Alfajores Testnet',
+    chainId: 44787,
+    rpcUrl: 'https://alfajores-forno.celo-testnet.org',
+    explorer: 'https://alfajores.celoscan.io',
     nativeCurrency: {
-      name: 'Avalanche',
-      symbol: 'AVAX',
+      name: 'Celo',
+      symbol: 'CELO',
       decimals: 18
     },
     testnet: true
-  },
-  'avalanche-mainnet': {
-    name: 'Avalanche Mainnet',
-    chainId: 43114,
-    rpcUrl: 'https://api.avax.network/ext/bc/C/rpc',
-    explorer: 'https://snowtrace.io',
-    nativeCurrency: {
-      name: 'Avalanche',
-      symbol: 'AVAX',
-      decimals: 18
-    },
-    testnet: false
-  },
-  'ethereum-goerli': {
-    name: 'Ethereum Goerli',
-    chainId: 5,
-    rpcUrl: 'https://goerli.infura.io/v3/YOUR_INFURA_KEY',
-    explorer: 'https://goerli.etherscan.io',
-    nativeCurrency: {
-      name: 'Ethereum',
-      symbol: 'ETH',
-      decimals: 18
-    },
-    testnet: true
-  },
-  'polygon-mumbai': {
-    name: 'Polygon Mumbai',
-    chainId: 80001,
-    rpcUrl: 'https://rpc-mumbai.maticvigil.com',
-    explorer: 'https://mumbai.polygonscan.com',
-    nativeCurrency: {
-      name: 'MATIC',
-      symbol: 'MATIC',
-      decimals: 18
-    },
-    testnet: true
-  },
-  'polygon-mainnet': {
-    name: 'Polygon Mainnet',
-    chainId: 137,
-    rpcUrl: 'https://polygon-rpc.com',
-    explorer: 'https://polygonscan.com',
-    nativeCurrency: {
-      name: 'MATIC',
-      symbol: 'MATIC',
-      decimals: 18
-    },
-    testnet: false
   }
 };
 

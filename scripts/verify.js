@@ -32,7 +32,7 @@ async function main() {
     })
     console.log("✅ VeritasZKVerifier verified successfully")
 
-  const explorer = net === 'alfajores' ? 'https://alfajores.celoscan.io' : 'https://testnet.snowtrace.io'
+  const explorer = 'https://alfajores.celoscan.io'
   console.log("\n🎉 All contracts verified!")
   console.log(`🌐 VeritasSBT: ${explorer}/address/${sbtAddress}`)
   console.log(`🌐 VeritasZKVerifier: ${explorer}/address/${verifierAddress}`)
